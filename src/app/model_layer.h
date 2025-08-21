@@ -11,26 +11,13 @@
 #include "log_level.h"
 #include "logger.h"
 
-/**
- * @brief Структура для передачи данных между потоками
- */
-struct LogData {
-    std::string message;
-    IFTlogs::LogLevel level;
-
-    LogData(const std::string msg, IFTlogs::LogLevel lvl)
-            : message(msg), level(lvl) {}
-};
-
 class model_layer : public IModel {
 public:
     model_layer(std::string log_filename, std::string log_level);
 
-//    ~model_layer() override;
-//
-//    bool addLogMessage(const std::string &message, IFTlogs::LogLevel level) override;
-//
-//    void changeLogLevel(IFTlogs::LogLevel level) override;
+    bool addLogMessage(const std::string &message, IFTlogs::LogLevel level) override;
+
+    void changeLogLevel(IFTlogs::LogLevel level) override;
 
     [[nodiscard]] IFTlogs::LogLevel getCurrentLevel() const override;
 

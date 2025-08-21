@@ -15,20 +15,12 @@ class presenter_layer : public IPresenter {
 public:
     presenter_layer(IView &view, IModel &model) : m_view(view), m_model(model) {};
 
+    int handleUserCommand(UserInput &userInput) override;
 
-    int handleUserCommand(UserInput &command) override {
+private:
+    int handleLogInput(const std::string &message, IFTlogs::LogLevel level) override;
 
-        switch (command.message)
-
-    }
-
-    void handleLogInput(const std::string &message, IFTlogs::LogLevel level, const std::string &recipient) override {
-
-    }
-
-//    void handleDefaultLogLevelChange(IFTlogs::LogLevel newLevel) override {
-//
-//    }
+    int handleChangeLevelCommand(IFTlogs::LogLevel level) override;
 
 private:
     IView &m_view;

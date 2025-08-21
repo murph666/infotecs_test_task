@@ -38,44 +38,62 @@ UserInput tui_layer::getUserInput() const {
         return getUserInput();
     }
 
+    // Разделяем строку на токены
     std::vector<std::string> tokens;
     std::stringstream check(line);
-
     std::string token;
 
     while (std::getline(check, token, ' ')) {
         tokens.push_back(token);
     }
-    switch (tokens.size()) {
-        case 0:
-            return getUserInput();
-        case 1:
-            if (line == "quit" || line == "exit") {
-                input.command = IFTlogs::LogCommands::QUIT;
-                return input;
-            } else if (line == "help") {
-                showHelp();
-                return getUserInput();
-            } else if (line == "level") {
-                input.command = IFTlogs::LogCommands::GET_LEVEL;
-            }else {
-                input.message = tokens[0];
-                input.command = IFTlogs::LogCommands::MESSAGE;
-            }
-            break;
-        case 2:
-            input.command = IFTlogs::LogCommands::MESSAGE;
-            input.level = IFTlogs::lvl_from_string(tokens[1]);
-            input.message = tokens[0];
-            break;
-        default:
-            if (tokens.size() > 2) {
-                std::cout << "Неправильный ввод" << std::endl;
-                return getUserInput();
-            }
-            break;
+
+    // Обработка команд
+    if (tokens[0] == "quit" || tokens[0] == "exit") {
+        input.command = IFTlogs::LogCommands::QUIT;
+        return input;
     }
 
+    if (tokens[0] == "help") {
+        showHelp();
+        return getUserInput();
+    }
+
+    if (tokens[0] == "level") {
+        if (tokens.size() == 1) {
+            input.command = IFTlogs::LogCommands::GET_LEVEL;
+        } else if (tokens.size() == 2) {
+            input.command = IFTlogs::LogCommands::CHANGE_LEVEL;
+            input.level = IFTlogs::lvl_from_string(tokens[1]);
+        } else {
+            std::cout << "Неправильный формат команды level" << std::endl;
+            return getUserInput();
+        }
+        return input;
+    }
+
+    // Обработка лог-сообщений
+    input.command = IFTlogs::LogCommands::MESSAGE;
+
+    if (tokens.size() == 1) {
+        // Только сообщение, без уровня
+        input.message = tokens[0];
+    } else if (tokens.size() >= 2) {
+        // Проверяем, является ли последний токен уровнем логирования
+        std::string lastToken = tokens.back();
+        std::transform(lastToken.begin(), lastToken.end(), lastToken.begin(), ::toupper);
+        if (lastToken == "DEBUG" || lastToken == "INFO" || lastToken == "ERROR") {
+            input.level = IFTlogs::lvl_from_string(lastToken);
+
+            for (size_t i = 0; i < tokens.size() - 1; i++) {
+                input.message += tokens[i];
+                if (i < tokens.size() - 2)
+                    input.message += " ";
+            }
+        } else {
+            // Уровня лога нет => считаем весь лайн за сообщение с дефолтным уровнем логирования
+            input.message = line;
+        }
+    }
     return input;
 }
 
