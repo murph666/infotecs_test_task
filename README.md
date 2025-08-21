@@ -1,1 +1,1 @@
-# infotecs_test_task
+# C++ Logging Solution
