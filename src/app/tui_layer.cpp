@@ -107,5 +107,5 @@ void tui_layer::showError(const std::string &message) const {
 
 void tui_layer::showCurrentLevel(IFTlogs::LogLevel level) const {
     std::cout << "Текущий уровень логирования по умолчанию: "
-              << IFTlogs::to_string(level) << std::endl;
+              << IFTlogs::lvl_to_string(level) << std::endl;
 }

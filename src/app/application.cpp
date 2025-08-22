@@ -37,7 +37,7 @@ int Application::run() {
             break;
         }
 
-        if (!m_presenter->handleUserCommand(input)) {
+        if (m_presenter->handleUserCommand(input)) {
             // Обработка ошибки от presenter
             m_tui->showError("Ошибка обработки команды");
         }

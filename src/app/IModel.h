@@ -23,7 +23,7 @@ public:
      * @brief Изменение уровня важности логгера
      * @param level Новый уровень
      */
-    virtual void changeLogLevel(IFTlogs::LogLevel level) = 0;
+    virtual int changeLogLevel(IFTlogs::LogLevel level) = 0;
 
     /**
      * @brief Получение текущего уровня важности

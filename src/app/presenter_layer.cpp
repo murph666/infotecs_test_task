@@ -5,9 +5,6 @@
 #include "presenter_layer.h"
 
 
-
-
-
 int presenter_layer::handleUserCommand(UserInput &userInput) {
     switch (userInput.command.value()) {
         case IFTlogs::LogCommands::MESSAGE:
@@ -21,14 +18,16 @@ int presenter_layer::handleUserCommand(UserInput &userInput) {
             break;
         default:
             m_view.showError("Неподдерживаемая команда");
-            return false;
+            return 1;
     }
+
+    return 0;
 }
 
-int presenter_layer::handleLogInput(const std::string &message, IFTlogs::LogLevel level) {
-    m_model.getCurrentLevel();
+bool presenter_layer::handleLogInput(const std::string &message, IFTlogs::LogLevel level) {
+    return m_model.addLogMessage(message, level);
 }
 
 int presenter_layer::handleChangeLevelCommand(IFTlogs::LogLevel level) {
-
+    return m_model.changeLogLevel(level);
 }

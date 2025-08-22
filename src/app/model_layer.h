@@ -17,14 +17,12 @@ public:
 
     bool addLogMessage(const std::string &message, IFTlogs::LogLevel level) override;
 
-    void changeLogLevel(IFTlogs::LogLevel level) override;
+    int changeLogLevel(IFTlogs::LogLevel level) override;
 
     [[nodiscard]] IFTlogs::LogLevel getCurrentLevel() const override;
 
-//    [[nodiscard]] bool isReady() const override;
 
 private:
-    void workerThread();
     std::unique_ptr<ThreadWrapper> m_ActionsThread;
     std::unique_ptr<IFTlogs::Logger> m_logger;
 };

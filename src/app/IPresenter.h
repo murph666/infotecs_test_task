@@ -22,7 +22,7 @@ private:
      * @param message Текст сообщения
      * @param level Уровень важности
      */
-    virtual int handleLogInput(const std::string &message, IFTlogs::LogLevel level) = 0;
+    virtual bool handleLogInput(const std::string &message, IFTlogs::LogLevel level) = 0;
 
     /**
      * @brief Изменение уровня логирования

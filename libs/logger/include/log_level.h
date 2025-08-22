@@ -32,7 +32,7 @@ namespace IFTlogs {
     /**
      * @brief Преобразование уровня логирования в строку
      */
-    inline std::string to_string(LogLevel level) {
+    inline std::string lvl_to_string(LogLevel level) {
         switch (level) {
             case LogLevel::DEBUG:
                 return "DEBUG";
