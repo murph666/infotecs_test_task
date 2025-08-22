@@ -6,14 +6,43 @@
 
 
 int presenter_layer::handleUserCommand(UserInput &userInput) {
+    // Проверяем, что команда установлена
+    if (!userInput.command.has_value()) {
+        m_view.showError("Команда не распознана");
+        return 1;
+    }
+
     switch (userInput.command.value()) {
         case IFTlogs::LogCommands::MESSAGE:
-            return handleLogInput(userInput.message, userInput.level.value());
+            // Проверяем, что уровень установлен для сообщения
+            if (!userInput.level.has_value()) {
+                m_view.showError("Уровень логирования не установлен для сообщения");
+                return 1;
+            }
+            if (!handleLogInput(userInput.message, userInput.level.value())) {
+                m_view.showSuccess("Сообщение записано в лог");
+            } else {
+                m_view.showError("Ошибка записи в лог");
+                return 1;
+            }
+            break;
         case IFTlogs::LogCommands::GET_LEVEL:
             m_view.showCurrentLevel(m_model.getCurrentLevel());
-            return 0;
+            break;
         case IFTlogs::LogCommands::CHANGE_LEVEL:
-            return handleChangeLevelCommand(userInput.level.value());
+            // Проверяем, что уровень установлен для изменения
+            if (!userInput.level.has_value()) {
+                m_view.showError("Новый уровень логирования не указан");
+                return 1;
+            }
+            if (handleChangeLevelCommand(userInput.level.value()) > 0) {
+                m_view.showSuccess("Уровень логирования изменен на " +
+                                   IFTlogs::lvl_to_string(userInput.level.value()));
+            } else {
+                m_view.showError("Ошибка изменения уровня логирования");
+                return 1;
+            }
+            break;
         case IFTlogs::LogCommands::QUIT:
             break;
         default:

@@ -22,6 +22,15 @@ namespace IFTlogs {
     }
 
     Logger::~Logger() {
+        m_shouldStop.store(true);
+        m_condition.notify_all();
+
+        // Ждем завершения рабочего потока
+        if (m_workerThread.joinable()) {
+            m_workerThread.join();
+        }
+
+        // Только потом закрываем файл
         std::lock_guard<std::mutex> lock(m_mutex);
         if (m_file.is_open()) {
             m_file.close();

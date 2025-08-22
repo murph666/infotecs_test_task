@@ -33,7 +33,6 @@ UserInput tui_layer::getUserInput() const {
     UserInput input;
 
     std::string line;
-
     if (!std::getline(std::cin, line)) {
         return getUserInput();
     }
@@ -44,7 +43,13 @@ UserInput tui_layer::getUserInput() const {
     std::string token;
 
     while (std::getline(check, token, ' ')) {
-        tokens.push_back(token);
+        if (!token.empty()) { // Пропускаем пустые токены
+            tokens.push_back(token);
+        }
+    }
+
+    if (tokens.empty()) {
+        return getUserInput(); // Если ввод пустой, запрашиваем заново
     }
 
     // Обработка команд
@@ -75,7 +80,7 @@ UserInput tui_layer::getUserInput() const {
     input.command = IFTlogs::LogCommands::MESSAGE;
 
     if (tokens.size() == 1) {
-        // Только сообщение, без уровня
+        // Только сообщение, используем уровень default
         input.message = tokens[0];
     } else if (tokens.size() >= 2) {
         // Проверяем, является ли последний токен уровнем логирования
@@ -84,13 +89,15 @@ UserInput tui_layer::getUserInput() const {
         if (lastToken == "DEBUG" || lastToken == "INFO" || lastToken == "ERROR") {
             input.level = IFTlogs::lvl_from_string(lastToken);
 
+            // Собираем сообщение из всех токенов кроме последнего
             for (size_t i = 0; i < tokens.size() - 1; i++) {
                 input.message += tokens[i];
-                if (i < tokens.size() - 2)
+                if (i < tokens.size() - 2) {
                     input.message += " ";
+                }
             }
         } else {
-            // Уровня лога нет => считаем весь лайн за сообщение с дефолтным уровнем логирования
+            // Уровня нет, используем весь ввод как сообщение с уровнем default
             input.message = line;
         }
     }
