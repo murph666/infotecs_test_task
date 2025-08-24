@@ -19,9 +19,7 @@ int presenter_layer::handleUserCommand(UserInput &userInput) {
                 m_view.showError("Уровень логирования не установлен для сообщения");
                 return 1;
             }
-            if (!handleLogInput(userInput.message, userInput.level.value())) {
-                m_view.showSuccess("Сообщение записано в лог");
-            } else {
+            if (handleLogInput(userInput.message, userInput.level.value())) {
                 m_view.showError("Ошибка записи в лог");
                 return 1;
             }
@@ -54,7 +52,7 @@ int presenter_layer::handleUserCommand(UserInput &userInput) {
 }
 
 bool presenter_layer::handleLogInput(const std::string &message, IFTlogs::LogLevel level) {
-    return m_model.addLogMessage(message, level);
+    m_model.addLogMessage(message, level);
 }
 
 int presenter_layer::handleChangeLevelCommand(IFTlogs::LogLevel level) {

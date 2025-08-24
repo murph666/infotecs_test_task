@@ -33,7 +33,7 @@ namespace IFTlogs {
         * @brief Установка нового уровня важности по умолчанию
         * @param level Новый уровень
         */
-        int addLogMessage(const std::string &message, LogLevel level);
+        void addLogMessage(const std::string &message, LogLevel level);
 
         /**
         * @brief Установка нового уровня важности по умолчанию

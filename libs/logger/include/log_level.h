@@ -15,7 +15,8 @@ namespace IFTlogs {
     enum class LogLevel {
         DEBUG = 0,
         INFO = 1,
-        ERROR = 2
+        ERROR = 2,
+        NONE = 3
     };
 
     /**
@@ -52,7 +53,7 @@ namespace IFTlogs {
         if (str == "DEBUG") return LogLevel::DEBUG;
         if (str == "INFO") return LogLevel::INFO;
         if (str == "ERROR") return LogLevel::ERROR;
-        return LogLevel::INFO;
+        return LogLevel::NONE;
     }
 
     /**

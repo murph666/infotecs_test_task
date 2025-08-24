@@ -15,7 +15,7 @@ class model_layer : public IModel {
 public:
     model_layer(std::string log_filename, std::string log_level);
 
-    bool addLogMessage(const std::string &message, IFTlogs::LogLevel level) override;
+    void addLogMessage(const std::string &message, IFTlogs::LogLevel level) override;
 
     int changeLogLevel(IFTlogs::LogLevel level) override;
 

@@ -17,7 +17,7 @@ public:
      * @param message Текст сообщения
      * @param level Ууровень
      */
-    virtual bool addLogMessage(const std::string& message, IFTlogs::LogLevel level) = 0;
+    virtual void addLogMessage(const std::string& message, IFTlogs::LogLevel level) = 0;
 
     /**
      * @brief Изменение уровня важности логгера

@@ -37,7 +37,7 @@ namespace IFTlogs {
         }
     }
 
-    int Logger::addLogMessage(const std::string &message, LogLevel level) {
+    void Logger::addLogMessage(const std::string &message, LogLevel level) {
         {
             std::lock_guard<std::mutex> lock(m_queueMutex);
 
@@ -50,13 +50,12 @@ namespace IFTlogs {
         }
 
         m_condition.notify_one();
-        return 0;
     }
 
 
     bool Logger::log(const LogMessage &message) {
         if (message.level < m_defaultLevel.load()) {
-            return true;
+            return false;
         }
 
         if (!m_isOpen.load()) {
@@ -73,7 +72,7 @@ namespace IFTlogs {
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
 
-            m_file << "[" << std::put_time(&tm, "%d-%m-%Y %H-%M-%S") << "] " << "[" << lvl_to_string(message.level) << "] " << message.text << std::endl;
+            m_file << "[" << std::put_time(&tm, "%d-%m-%Y %H:%M:%S") << "] " << "[" << lvl_to_string(message.level) << "] " << message.text << std::endl;
 
             m_file.flush(); // Принудительная запись на диск
             return true;

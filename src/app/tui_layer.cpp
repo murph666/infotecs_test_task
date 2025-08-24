@@ -8,7 +8,7 @@ void tui_layer::showWelcome() const {
     std::cout << "=== Logger Application ===" << std::endl;
     std::cout << "Введите сообщение для записи в лог." << std::endl;
     std::cout << "Формат: <сообщение> [уровень]" << std::endl;
-    std::cout << "Уровни: INFO, WARNING, ERROR" << std::endl;
+    std::cout << "Уровни: DEBUG, INFO, ERROR" << std::endl;
     std::cout << "Специальные команды:" << std::endl;
     std::cout << "  quit - выход из программы" << std::endl;
     std::cout << "  level - показать минимальный уровень логирования" << std::endl;
@@ -23,7 +23,7 @@ void tui_layer::showHelp() const {
     std::cout << "  Привет мир INFO" << std::endl;
     std::cout << "  Произошла ошибка ERROR" << std::endl;
     std::cout << "  Простое сообщение (будет использован уровень по умолчанию)" << std::endl;
-    std::cout << "  level WARNING (изменить минимальный уровень на WARNING)" << std::endl;
+    std::cout << "  level DEBUG (изменить минимальный уровень на DEBUG)" << std::endl;
     std::cout << "  quit (выход)" << std::endl;
     std::cout << std::endl;
 }
@@ -66,14 +66,23 @@ UserInput tui_layer::getUserInput() const {
     if (tokens[0] == "level") {
         if (tokens.size() == 1) {
             input.command = IFTlogs::LogCommands::GET_LEVEL;
-        } else if (tokens.size() == 2) {
-            input.command = IFTlogs::LogCommands::CHANGE_LEVEL;
-            input.level = IFTlogs::lvl_from_string(tokens[1]);
-        } else {
-            std::cout << "Неправильный формат команды level" << std::endl;
-            return getUserInput();
+            return input;
         }
-        return input;
+
+        if (tokens.size() == 2) {
+            input.command = IFTlogs::LogCommands::CHANGE_LEVEL;
+
+            std::string level_str = tokens[1];
+            std::transform(level_str.begin(), level_str.end(), level_str.begin(), ::toupper);
+
+            if (auto lvl = IFTlogs::lvl_from_string(level_str); lvl != IFTlogs::LogLevel::NONE) {
+                input.level = lvl;
+                return input;
+            }
+        }
+
+        std::cout << "Неправильный формат команды level" << std::endl;
+        return getUserInput();
     }
 
     // Обработка лог-сообщений
