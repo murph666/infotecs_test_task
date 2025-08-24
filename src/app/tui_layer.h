@@ -29,9 +29,6 @@ public:
     void showError(const std::string &message) const override;
 
     void showCurrentLevel(IFTlogs::LogLevel level) const override;
-
-private:
-    std::unique_ptr<ThreadWrapper> m_PollingThread;
 };
 
 

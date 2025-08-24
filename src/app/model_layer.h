@@ -23,7 +23,6 @@ public:
 
 
 private:
-    std::unique_ptr<ThreadWrapper> m_ActionsThread;
     std::unique_ptr<IFTlogs::Logger> m_logger;
 };
 

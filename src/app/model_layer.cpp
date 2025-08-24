@@ -5,7 +5,6 @@
 #include "model_layer.h"
 
 model_layer::model_layer(std::string log_filename, std::string log_level) :
-        m_ActionsThread(std::make_unique<ThreadWrapper>()),
         m_logger(std::make_unique<IFTlogs::Logger>(log_filename, IFTlogs::lvl_from_string(log_level))) {
 }
 

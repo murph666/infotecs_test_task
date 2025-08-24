@@ -18,7 +18,7 @@ public:
     int handleUserCommand(UserInput &userInput) override;
 
 private:
-    bool handleLogInput(const std::string &message, IFTlogs::LogLevel level) override;
+    void handleLogInput(const std::string &message, IFTlogs::LogLevel level) override;
 
     int handleChangeLevelCommand(IFTlogs::LogLevel level) override;
 
