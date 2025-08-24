@@ -6,7 +6,6 @@
 #define INFOTECS_MODEL_LAYER_H
 
 
-#include "threadwrapper.h"
 #include "IModel.h"
 #include "log_level.h"
 #include "logger.h"

@@ -12,7 +12,3 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) {
     app.run();
     return 0;
 }
-
-
-//    m_PollingThread(std::make_unique<ThreadWrapper>()),
-//    m_ActionsThread(std::make_unique<ThreadWrapper>())

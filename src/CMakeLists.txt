@@ -14,17 +14,14 @@ set(HEADERS
         app/model_layer.h
         app/presenter_layer.h
         app/tui_layer.h
-
-        utils/threadwrapper.h)
+)
 
 set(SOURCES
         app/application.cpp
 
         app/model_layer.cpp
         app/presenter_layer.cpp
-        app/tui_layer.cpp
-
-        utils/threadwrapper.cpp)
+        app/tui_layer.cpp)
 
 target_sources(${LIBRARY_TARGET_NAME} PRIVATE ${HEADERS} ${SOURCES})
 

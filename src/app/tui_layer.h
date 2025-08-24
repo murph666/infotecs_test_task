@@ -6,7 +6,6 @@
 #define INFOTECS_TUI_LAYER_H
 
 #include "IView.h"
-#include "threadwrapper.h"
 #include "log_level.h"
 
 #include <sstream>
